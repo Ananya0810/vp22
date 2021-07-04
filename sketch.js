@@ -1,6 +1,6 @@
 
 var food
-
+var bedroomImg,gardenImg,washroomImg
 
 var gameState="hungry"
 function preload()
@@ -8,7 +8,12 @@ function preload()
 dogHappy=loadImage("images/dogImg1.png")
 dogSad=loadImage("images/dogImg.png")
 bgImg=loadImage("images/bg.png")
+
+bedroomImg=loadImage("images/Bed Room.png")
+gardenImg=loadImage("images/Garden.png")
+washroomImg=loadImage("images/Wash Room.png")
 }
+
 
 function setup() {
 	createCanvas(500, 500);
@@ -20,6 +25,7 @@ function setup() {
   dog.scale=0.2
   milk1 = new Food()
   milk1.getfeedTime()
+
 //writing gamestate in data base 
    database.ref('gameState').on("value",(data)=>{
 
@@ -41,12 +47,44 @@ text("virtual pet",306,50)
 text("fedtime;"+ milk1.getfeedTime)
 milk1.buttons()
 
+currentTime=hour ()
+if(currentTime==(milk1.feedtime+1)){
+  milk1.updateState("playing")
+milk1.garden()
+}
+else if( currentTime==(milk1.feedtime+2)){
+  milk1.updateState("sleeping")
+  milk1.bedroom()
+}
 
-if(food===0){
+else if( currentTime==(milk1.feedtime+3)){
+  milk1.updateState("bathing")
+  milk1.washRoom()
+}
+
+else{
+  milk1.updateState("hungry")
+}
+
+
+if(gameState!=="hungry"){
+  milk1.button1.hide();
+  milk1.button2.hide();
+  dog.remove()
+    }
+    else{
+      milk1.button1.show();
+  milk1.button2.show();
   dog.addImage(dogHappy)
   dog.scale=0.2
 
-}
+    }
+
+    if(food===0){
+      dog.addImage(dogHappy)
+      dog.scale=0.2
+    
+    }
 }
 function readPosition(data){
   food=data.val()

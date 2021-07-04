@@ -50,4 +50,22 @@ updateState(state){
         gameState:state
     })
 }
+
+
+
+
+bedRoom(){
+
+    background(bedroomImg)
+}
+
+washRoom(){
+
+    background(washroomImg)
+}
+
+garden(){
+
+    background(gardenImg)
+}
 }
